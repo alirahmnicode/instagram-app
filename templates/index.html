@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'style.css' %}?{% now 'U'%}">
+<title>home</title>
+{% endblock head %}
+
+
+{% block content %}
+{% include 'inc/navbar.html' %}
+<div class="posts">
+    {% for p in posts %}
+    <div class="post">
+        <a href="{{p.get_absolut_url}}">
+            <img class="post-img" src="{{p.image.url}}" alt="">
+        </a>
+        <div class="post_info">
+            <p>{{p.descriptions}}</p>
+            <a href="{% url 'users:profile' pk=p.user.pk username=p.user.username %}">
+                <p>{{p.user}} </p>
+            </a>
+            <p class="date">{{p.create | date}}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}

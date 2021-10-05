@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>signup</title>
+{% endblock head %}
+
+{% block content %}
+<form action="{% url 'users:signup' %}" method="POST" novalidate>
+    {% csrf_token %}
+    <div class="alert">
+        {{form.non_field_errors}}
+    </div>
+    <div class="input">
+        <div class="err">
+            {{form.username.errors}}
+        </div>
+        <div>
+            {{form.username}}
+        </div>
+    </div>
+    <div class="input">
+        <div class="err">
+            {{form.email.errors}}
+        </div>
+        <div>
+            {{form.email}}
+        </div>
+    </div>
+    <div class="input">
+        <div class="err">
+            {{form.password.errors}}
+        </div>
+        <div>
+            {{form.password}}
+        </div>
+    </div>
+    <input type="submit" value="submit">
+</form>
+{% endblock content %}

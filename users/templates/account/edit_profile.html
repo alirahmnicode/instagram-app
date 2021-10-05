@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'profile.css' %}">
+<title>edit profile</title>
+{% endblock head %}
+
+
+
+{% block content %}
+<div>
+    <form action="{% url 'users:edit_profile' username=request.user.username %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Edit</button>
+    </form>
+</div>
+{% endblock content %}

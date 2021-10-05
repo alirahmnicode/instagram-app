@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+}
+
+.avatar > img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.p-posts {
+    display: flex;
+    width: 600px;
+    margin: 50px auto;
+}
+
+.p-post {
+    width: 200px;
+    height: 200px;
+}
+
+.p-post img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+

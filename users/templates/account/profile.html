@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'profile.css' %}?{% now 'U'%}">
+<title>profile</title>
+{% endblock head %}
+
+
+{% block content %}
+{% include 'inc/navbar.html' %}
+<div class="profile">
+    <div class="avatar">
+        <img src="{{user.profile.image.url}}" alt="">
+    </div>
+    <div class="user-info">
+        <div>
+            <a href="{% url 'users:edit_profile' username=request.user.username %}">edit</a>
+        </div>
+    </div>
+</div>
+<div class="p-posts">
+    {% for p in posts %}
+    <div class="p-post">
+        <a href="{{p.get_absolut_url}}">
+            <img class="post-img" src="{{p.image.url}}" alt="">
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
