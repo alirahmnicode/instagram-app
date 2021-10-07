@@ -9,21 +9,54 @@
 
 {% block content %}
 {% include 'inc/navbar.html' %}
-<div class="posts">
-    {% for p in posts %}
-    <div class="post">
-        <a href="{{p.get_absolut_url}}">
-            <img class="post-img" src="{{p.image.url}}" alt="">
-        </a>
-        <div class="post_info">
-            <p>{{p.descriptions}}</p>
-            <a href="{% url 'users:profile' pk=p.user.pk username=p.user.username %}">
-                <p>{{p.user}} </p>
-            </a>
-            <p class="date">{{p.create | date}}</p>
-        </div>
+<div class="container">
+    <div class="content">
+        <div class="posts">
+            {% for p in posts %}
+            <div class="post">
+                <a href="{{p.get_absolut_url}}">
+                    <img class="post-img" src="{{p.image.url}}" alt="">
+                </a>
+                <div class="post_info">
+                    <p>{{p.descriptions}}</p>
+                    <a href="{% url 'users:profile' pk=p.user.pk username=p.user.username %}">
+                        <p>{{p.user}} </p>
+                    </a>
+                    <p class="date">{{p.create | date}}</p>
+                </div>
 
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    {% endfor %}
+    <div class="sidebar">
+        <div class="suggestions">
+            {% for user in users %}
+            <div class="user">
+                <div class="user-s-info">
+                    <div>
+                        {% if user.profile == '' %}
+                        <img src="https://img.icons8.com/ios/50/000000/user--v1.png" alt="">
+                        {% else %}
+                        <img src="{{user.profile.imageUrl}}" alt="">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h4>{{user.username}}</h4>
+                        <span>Suggested for you</span>
+                    </div>
+                </div>
+                <div>
+                    {% if request.user in user.relation.follower.all %}
+                    <a class="f-l" href="{% url 'users:follow_unfollow' user_id=user.id %}">unfollow</a>
+                    {% else %}
+                    <a class="f-l" href="{% url 'users:follow_unfollow' user_id=user.id %}">follow</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+
 {% endblock content %}

@@ -1,22 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
 {% block head %}
 <link rel="stylesheet" href="{% static 'profile.css' %}?{% now 'U'%}">
 <title>profile</title>
 {% endblock head %}
-
-
 {% block content %}
 {% include 'inc/navbar.html' %}
 <div class="profile">
     <div class="avatar">
-        <img src="{{user.profile.image.url}}" alt="">
+        {% if is_profile %}
+        <img src="{{user.profile.imageUrl}}" alt="">
+        {% else %}
+        <img src="https://img.icons8.com/ios/50/000000/user--v1.png" alt="">
+        {% endif %}
     </div>
     <div class="user-info">
         <div>
-            <a href="{% url 'users:edit_profile' username=request.user.username %}">edit</a>
+            <h2>{{user.username}}</h2>
+            {% if request.user.id != user.id %}
+            <div class="follow-unfollow">
+                {% if request.user in user.relation.follower.all %}
+                <a href="{% url 'users:follow_unfollow' user_id=user.id %}">unfollow</a>
+                {% else %}
+                <a href="{% url 'users:follow_unfollow' user_id=user.id %}">follow</a>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% if request.user.id == user.id %}
+            <div class="edit-profile">
+                <a href="{% url 'users:edit_profile' username=request.user.username %}">edit</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="user-follower-box">
+            <div class="user-posts">{{posts.count}} posts</div>
+            <!-- check if relation object created for user -->
+            {% if user.relation %}
+            <div class="user-follower">{{user.relation.follower.count}} follower</div>
+            <div class="user-following">{{user.relation.following.count}} following</div>
+            {% else %}
+            <div class="user-follower">0 follower</div>
+            <div class="user-following">0 following</div>
+            {% endif %}
+        </div>
+        <div class="user-bio">
+            <p>{{user.profile.bio}}</p>
         </div>
     </div>
 </div>

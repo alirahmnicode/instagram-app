@@ -3,9 +3,17 @@
         <a href="/">instagram</a>
     </div>
     <div>
+        <input type="search" name="search" id="search" placeholder="search username...">
+    </div>
+    <div>
+        <a href="/">
+            <img src="https://img.icons8.com/material-rounded/24/000000/home.png" />
+        </a>
         {% if request.user.is_authenticated %}
-        <a href="{% url 'post:add_post' %}">add_post</a>
-        <a href="{% url 'users:logout'  %}">logout</a>
+        <a href="{% url 'post:add_post' %}" >
+            <img class="add-post"
+                src="https://img.icons8.com/external-becris-lineal-becris/64/000000/external-add-mintab-for-ios-becris-lineal-becris.png" />
+        </a>
         <a href="{% url 'users:profile' pk=request.user.pk username=request.user.username %}">
             <img class="nav-avatar" src="{{request.user.profile.image.url}}" alt="">
         </a>
@@ -13,5 +21,6 @@
         <a href="{% url 'users:login' %}">login</a>
         <a href="{% url 'users:signup'  %}">signup</a>
         {% endif %}
+
     </div>
 </nav>

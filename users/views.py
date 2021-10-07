@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from posts.models import Post
 from .forms import UserLoginForm, UserRegisterForm, EditProfileForm
-from .models import Profile
+from .models import Profile , Relation
 
 
 def user_login(request):
@@ -55,7 +55,12 @@ def user_logout(request):
 def user_profile(request, pk, username):
     user = get_object_or_404(User, pk=pk, username=username)
     posts = Post.objects.filter(user=user)
-    context = {"posts": posts, "user": user}
+    try:
+        profile = Profile.objects.get(user=user)
+        is_profile = True
+    except:
+        is_profile = False
+    context = {"posts": posts, "user": user , "is_profile":is_profile}
     return render(request, "account/profile.html", context)
 
 
@@ -85,9 +90,30 @@ def edit_profile(request, username):
         )
 
 
-# login with phone number
-def phone_login(request):
-    if request.method == "POST":
-        pass
+@login_required
+def follow_unfollow(request , user_id):
+    user = get_object_or_404(User , pk=user_id)
+    # get or create relation object for add follower for user
+    obj_user, created_user_r = Relation.objects.get_or_create(user=user)
+    # get or create relation object for add following for user that send request
+    obj_request_user, created_r_user_r = Relation.objects.get_or_create(user=request.user)
+
+    # add following for user that send request
+    if created_r_user_r == True:
+        obj_request_user.following.add(user)
+    
+    # add folower for user
+    if created_user_r == True:
+        obj_user.follower.add(request.user)
+    elif request.user in obj_user.follower.all():
+        # unfollow user
+        obj_user.follower.remove(request.user)
+        obj_request_user.following.remove(user)
     else:
-        return redirect("/")
+        # follow user 
+        obj_user.follower.add(request.user)
+        obj_request_user.following.add(user)
+
+    return redirect(request.META.get('HTTP_REFERER'))
+
+    

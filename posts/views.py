@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import Post
 from .forms import AddPostForm, EditPostForm
 from comment.forms import AddCommentForm
@@ -8,7 +9,9 @@ from comment.forms import AddCommentForm
 
 def index(request):
     posts = Post.objects.all()
-    context = {"posts": posts}
+    # get users for suggestions
+    users = User.objects.all().exclude(username=request.user.username)
+    context = {"posts": posts , 'users':users}
     return render(request, "index.html", context)
 
 

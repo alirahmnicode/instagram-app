@@ -1,42 +1,103 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 a {
-    color: black;
-    text-decoration: none;
+  color: black;
+  text-decoration: none;
 }
 
 .profile {
-    display: flex;
-    justify-content: center;
-    margin: 50px 0;
+  display: flex;
+  justify-content: space-between;
+  margin: 50px auto;
+  width: 630px;
 }
 
 .avatar > img {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-
 .p-posts {
-    display: flex;
-    width: 600px;
-    margin: 50px auto;
+  display: flex;
+  flex-wrap: wrap;
+  width: 630px;
+  margin: 100px auto;
 }
 
 .p-post {
-    width: 200px;
-    height: 200px;
+  width: 200px;
+  height: 200px;
+  margin: 5px 5px;
 }
 
 .p-post img {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
+.user-follower-box {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.user-follower-box > div {
+  margin: 0 20px;
+  font-size: 18px;
+}
+
+.follow-unfollow {
+  width: 100px;
+  height: 30px;
+  background: royalblue;
+  border-radius: 5px;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.follow-unfollow > a {
+  color: #fff;
+}
+
+.user-info > div:first-child {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.user-info > div:first-child > div {
+  margin: 0 20px;
+}
+
+.user-info > div:first-child > h2 {
+  margin: 0 20px;
+  color: rgb(158, 158, 158);
+}
+
+.edit-profile {
+  width: 70px;
+  height: 30px;
+  border-radius: 5px;
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #bbb;
+}
+
+.user-bio {
+  margin: 20px;
+}
+
+.user-bio > p {
+  width: 200px;
+}

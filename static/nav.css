@@ -2,7 +2,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 100px;
     width: 100%;
     height: 50px;
     box-shadow: 0 0 1px 1px #bdbdbd;
@@ -18,8 +18,26 @@ nav  a {
 }
 
 .nav-avatar {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+input[type=search] {
+    width: 200px;
+    height: 30px;
+    padding: 5px;
+    border:1px solid #bbb;
+    outline: none;
+    border-radius: 5px;
+}
+
+nav > div:last-child {
+    display: flex;
+    align-items: center;
+}
+
+.add-post {
+    width: 26px;
 }
