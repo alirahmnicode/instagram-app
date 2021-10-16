@@ -11,7 +11,9 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     image = models.ImageField(blank=True , upload_to="profile")
     phone = models.IntegerField(unique=True , null=True , blank=True)
-   
+    
+    def __str__(self):
+        return self.user.username
 
     def imageUrl(self):
         if self.image.url == '':

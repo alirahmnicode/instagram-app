@@ -1,39 +1,56 @@
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block head %}
 <title>signup</title>
+<link rel="stylesheet" href="{% static 'register.css' %}?{% now 'U'%}">
 {% endblock head %}
 
 {% block content %}
-<form action="{% url 'users:signup' %}" method="POST" novalidate>
-    {% csrf_token %}
-    <div class="alert">
-        {{form.non_field_errors}}
+<canvas id="gradient-canvas" data-js-darken-top data-transition-in>
+    <!--
+        Remove data-js-darken-top to keep the same brightness in the upper part of the canvas
+      -->
+</canvas>
+<div class="form-box">
+    <form class="register-form" action="{% url 'users:signup' %}" method="POST" novalidate>
+        {% csrf_token %}
+        <div class="alert">
+            {{form.non_field_errors}}
+        </div>
+        <div class="input">
+            <div class="err">
+                {{form.username.errors}}
+            </div>
+            <div>
+                {{form.username}}
+            </div>
+        </div>
+        <div class="input">
+            <div class="err">
+                {{form.email.errors}}
+            </div>
+            <div>
+                {{form.email}}
+            </div>
+        </div>
+        <div class="input">
+            <div class="err">
+                {{form.password.errors}}
+            </div>
+            <div>
+                {{form.password}}
+            </div>
+        </div>
+        <input type="submit" value="submit">
+    </form>
+    <div>
+        <p>Do you have any account?<a href="{% url 'users:login' %}">Log In </a></p>
     </div>
-    <div class="input">
-        <div class="err">
-            {{form.username.errors}}
-        </div>
-        <div>
-            {{form.username}}
-        </div>
-    </div>
-    <div class="input">
-        <div class="err">
-            {{form.email.errors}}
-        </div>
-        <div>
-            {{form.email}}
-        </div>
-    </div>
-    <div class="input">
-        <div class="err">
-            {{form.password.errors}}
-        </div>
-        <div>
-            {{form.password}}
-        </div>
-    </div>
-    <input type="submit" value="submit">
-</form>
+</div>
 {% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/register.js' %}"></script>
+{% endblock js %}

@@ -1,14 +1,29 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block head %}
-    <title>login</title>
+<title>login</title>
+<link rel="stylesheet" href="{% static 'register.css' %}?{% now 'U'%}">
 {% endblock head %}
 
 {% block content %}
-    <form action="{% url 'users:login' %}" method="POST" novalidate>
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="submit">
-    </form>
+<canvas id="gradient-canvas" data-js-darken-top data-transition-in>
+  <!--
+      Remove data-js-darken-top to keep the same brightness in the upper part of the canvas
+    -->
+</canvas>
+<div class="form-box">
+  <form class="register-form" action="{% url 'users:login' %}" method="POST" novalidate>
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="submit">
+  </form>
+  <div>
+    <p>Dont you have any account?<a href="{% url 'users:signup' %}">Sign Up</a></p>
+  </div>
+</div>
+
 {% endblock content %}
-    
+
+{% block js %}
+<script src="{% static 'js/register.js' %}"></script>
+{% endblock js %}

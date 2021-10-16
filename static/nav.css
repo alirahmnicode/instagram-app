@@ -1,43 +1,161 @@
 nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 100px;
-    width: 100%;
-    height: 50px;
-    box-shadow: 0 0 1px 1px #bdbdbd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 100px;
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 0 1px 1px #bdbdbd;
+  position: fixed;
+  background: #fff;
+  z-index: 2;
+  top: 0;
+  right: 0;
 }
 
 .logo {
-    font-size: x-large;
-    font-family:Tahoma;
+  font-size: x-large;
+  font-family: Tahoma;
 }
 
-nav  a {
-    margin: 0 5px;
+nav a {
+  margin: 0 5px;
 }
 
+.logout {
+  width: 30px;
+}
 .nav-avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-input[type=search] {
-    width: 200px;
-    height: 30px;
-    padding: 5px;
-    border:1px solid #bbb;
-    outline: none;
-    border-radius: 5px;
+input[type="search"] {
+  width: 200px;
+  height: 30px;
+  padding: 5px;
+  border: 1px solid #bbb;
+  outline: none;
+  border-radius: 5px;
 }
 
 nav > div:last-child {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .add-post {
-    width: 26px;
+  width: 26px;
+}
+
+.menu {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.change .bar1 {
+  -webkit-transform: rotate(-45deg) translate(-9px, 6px);
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {
+  opacity: 0;
+}
+
+.change .bar3 {
+  -webkit-transform: rotate(45deg) translate(-8px, -8px);
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+#menu-screen {
+  width: 0px;
+  height: 100%;
+  position: fixed;
+  background-color: #fff;
+  box-shadow: 0 0 25px 0px;
+  z-index: 3;
+  overflow: hidden;
+  transition: 0.5s;
+}
+
+.user-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-menu > a {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.search {
+  position: relative;
+}
+
+#search-result {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 7px 7px 12px 2px #0d0d0d26;
+  width: 100%;
+}
+
+#search-result > .profile-search > div > a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  margin: 5px;
+}
+
+
+.search > form {
+  display: flex;
+  align-items: center;
+}
+
+
+.search > form > button{
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+@media only screen and (max-width: 700px) {
+  nav {
+    padding: 0 10px;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  nav > div:last-child,
+  .search {
+    display: none;
+  }
+
+  nav {
+    justify-content: space-between;
+  }
+}
+
+@media only screen and (min-width: 550px) {
+  .menu {
+    display: none;
+  }
 }

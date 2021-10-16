@@ -12,6 +12,17 @@
 {% include 'inc/navbar.html' %}
 <div class="post">
     <img src="{{post.image.url}}" alt="post.slug">
+    <div class="like">
+        <a href="{% url 'post:like_unlike' post_id=post.pk %}">
+            {% if request.user in post.likes.all %}
+            <img class="like-btn" src="https://img.icons8.com/ios-filled/50/fa314a/like--v1.png" />
+            {% else %}
+            <img class="like-btn"
+                src="https://img.icons8.com/external-kiranshastry-lineal-kiranshastry/64/000000/external-heart-miscellaneous-kiranshastry-lineal-kiranshastry.png" />
+            {% endif %}
+        </a>
+        <p>{{post.likes.count}} like</p>
+    </div>
     <p>{{post.descriptions}}</p>
     <span>{{post.user}} | {{post.create | date}}</span>
     {% if post.user.id == request.user.id %}
@@ -35,55 +46,53 @@
         <p>just loged in user</p>
         {% endif %}
     </div>
-    <h1>Comentarios <a href="http://creaticode.com">creaticode.com</a></h1>
+    <h1>Comments</h1>
     <ul id="comments-list" class="comments-list">
         {% for c in post.post_comments.all %}
         {% if c.is_reply == False%}
         <li>
             <div class="comment-main-level">
                 <!-- Avatar -->
-                <div class="comment-avatar"><img src="{{c.user.u_profile.image.url}}" alt=""></div>
+                <div class="comment-avatar"><img src="{{c.user.profile.image.url}}" alt=""></div>
                 <!-- Contenedor del Comentario -->
                 <div class="comment-box">
                     <div class="comment-head">
                         <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">{{c.user.username}}</a>
                         </h6>
-                        <span>hace 20 minutos</span>
+                        <span>{{c.created | date }}</span>
                         <i class="fa fa-reply"></i>
                         <i class="fa fa-heart"></i>
                     </div>
                     <div class="comment-content">
                         <p>{{c.body}}</p>
-                        <button id="open-reply">reply</button>
+                        <button class="show-comment-form">reply</button>
+                        <div class="comment-form">
+                            <form action="{% url 'comment:reply' post_id=post.pk comment_id=c.pk %}" method="post">
+                                {% csrf_token %}
+                                {{comment_form.as_p}}
+                                <button type="submit">Add</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- add reply comment for this comment -->
-            <div class="add-reply">
-                <form action="{% url 'comment:reply' post_id=post.pk comment_id=c.pk %}" method="post">
-                    {% csrf_token %}
-                    {{comment_form.as_p}}
-                    <button type="submit">reply</button>
-                </form>
             </div>
             <!-- Respuestas de los comentarios -->
             <ul class="comments-list reply-list">
                 {% for reply in c.reply_comments.all %}
                 <li>
                     <!-- Avatar -->
-                    <div class="comment-avatar"><img src="{{c.user.u_profile.image.url}}" alt=""></div>
+                    <div class="comment-avatar"><img src="{{c.user.profile.image.url}}" alt=""></div>
                     <!-- Contenedor del Comentario -->
                     <div class="comment-box">
                         <div class="comment-head">
                             <h6 class="comment-name"><a href="http://creaticode.com/blog">{{reply.user.username}}</a>
                             </h6>
-                            <span>hace 10 minutos</span>
+                            <span>{{c.created | date }}</span>
                             <i class="fa fa-reply"></i>
                             <i class="fa fa-heart"></i>
                         </div>
                         <div class="comment-content">
                             <p>{{reply.body}}</p>
-                            <button id="open-reply">reply</button>
                         </div>
                     </div>
                 </li>
@@ -95,3 +104,7 @@
     </ul>
 </div>
 {% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/commentForm.js' %}"></script>
+{% endblock js %}

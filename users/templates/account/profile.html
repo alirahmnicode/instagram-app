@@ -27,8 +27,12 @@
             </div>
             {% endif %}
             {% if request.user.id == user.id %}
-            <div class="edit-profile">
+            <div class="profile-tool">
                 <a href="{% url 'users:edit_profile' username=request.user.username %}">edit</a>
+            </div>
+
+            <div class="profile-tool">
+                <a href="{% url 'users:logout' %}">logout</a>
             </div>
             {% endif %}
         </div>

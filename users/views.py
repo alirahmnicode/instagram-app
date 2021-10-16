@@ -6,6 +6,11 @@ from django.contrib import messages
 from posts.models import Post
 from .forms import UserLoginForm, UserRegisterForm, EditProfileForm
 from .models import Profile , Relation
+import json
+from django.http import HttpResponse
+from django.http import JsonResponse
+from django.core import serializers
+from django.forms.models import model_to_dict
 
 
 def user_login(request):
@@ -115,5 +120,33 @@ def follow_unfollow(request , user_id):
         obj_request_user.following.add(user)
 
     return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+def search_profile(request , profile_name):
+    users = User.objects.filter(username__icontains=profile_name)
+    profiles = Profile.objects.filter(user__in=users)
+    res = None
+
+    if len(users) > 0 and len(profile_name) > 0:
+        data = []
+        for p in users:
+            item = {
+                'pk':p.pk,
+                'username':p.username,
+                'img':None
+            }
+            try:
+                item['img'] = ' http://localhost:5000/media/' + str(p.profile.image)
+            except:
+                item['img'] = 'https://img.icons8.com/ios/50/000000/user--v1.png'
+
+            data.append(item)
+            res = data
+    else:
+        res = 'not found...'
+
+    
+    return JsonResponse({'data':res})
 
     

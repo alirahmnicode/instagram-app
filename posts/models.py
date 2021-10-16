@@ -8,6 +8,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to = 'posts')
     descriptions = models.TextField()
     slug = models.SlugField()
+    likes = models.ManyToManyField(User , related_name='likes' , blank=True)
     create = models.DateTimeField(auto_now_add=True)
     update = models.DateTimeField(auto_now=True)
 

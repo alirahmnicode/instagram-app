@@ -5,13 +5,42 @@ from django.contrib.auth.models import User
 from .models import Post
 from .forms import AddPostForm, EditPostForm
 from comment.forms import AddCommentForm
+from users.models import Profile
 
-
+@login_required
 def index(request):
-    posts = Post.objects.all()
+    alert = None
+    try:
+        # get posts that user followed its creator
+        # get user follower
+        user_followers = request.user.relation.following.all()
+        # filter posts
+        # get posts that its user id are in user follower list
+        posts = Post.objects.filter(
+            user__id__in=[user_id.id for user_id in user_followers],
+        )
+        # get user posts
+        posts |= Post.objects.filter(user=request.user)
+    except:
+        posts = Post.objects.filter(user=request.user)
+
+    if len(posts) == 0:
+        alert = "there is not post for you"
+    else:
+        alert = None
+
+    print(alert)
+    profile = Profile.objects.get(user=request.user)
+    if profile.image == '':
+        ok = False
+    else:
+        ok = True
+    
     # get users for suggestions
     users = User.objects.all().exclude(username=request.user.username)
-    context = {"posts": posts , 'users':users}
+    # comment form
+    form = AddCommentForm()
+    context = {"posts": posts, "users": users , 'form':form , 'alert':alert , 'ok':ok}
     return render(request, "index.html", context)
 
 
@@ -72,3 +101,11 @@ def edit_post(request, post_user_id, post_id):
         )
 
 
+@login_required
+def like_unlike(request , post_id):
+    post = get_object_or_404(Post , pk=post_id)
+    if request.user in post.likes.all():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return redirect(request.META.get('HTTP_REFERER'))
